@@ -1,0 +1,26 @@
+daemonize: true
+logfile:/var/log/rb-exporter/<%= @iface %>/rb-exporter.log
+
+<% if @type.downcase.include? "netflow"%>
+aggregate: src_host, dst_host, src_mac, dst_mac, src_port, dst_port, proto, class, vlan, tag2
+
+plugins: nfprobe
+nfprobe_receiver: <%= @dstAddress %>
+nfprobe_version: <%= @type.scan(/\d/).join('') %>
+nfprobe_timeouts: maxlife=30:tcp=30:udp=30:icmp=30:general=30
+<% if @observation_id %>
+nfprobe_engine: <%=@observation_id%><%=@type.scan(/\d/).join('').to_i > 5 ? "" : ":0"%>
+<% end %>
+<% end # end netflow%>
+
+<% if @type.downcase.include? "sflow" %>
+aggregate: class, dst_host, dst_host_country, dst_mac, dst_port, export_proto_seqno, in_iface, out_iface, peer_dst_ip, peer_src_ip, proto, sampling_rate, src_host, src_host_country, src_mac, src_port, tag, tag2, tcpflags, timestamp_arrival, tos, vlan
+
+plugins: sfprobe
+sfprobe_agentip: <%= @ipAddress %>
+sfprobe_agentsubid: 1402
+sfprobe_receiver: <%= @dstAddress %>
+sampling_rate: 20
+!pre_tag_label_encode_as_map: true
+pre_tag_map: /etc/rb-exporter/<%=@iface%>/pretag.map
+<% end %>
