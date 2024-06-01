@@ -1,12 +1,8 @@
-#
-# Cookbook Name:: rb-exporter
+# Cookbook:: rb-exporter
 # Recipe:: default
-#
-# Copyright 2016, redborder
-#
-# All rights reserved - Do Not Redistribute
-#
+# Copyright:: 2024, redborder
+# License:: Affero General Public License, Version 3
 
-rb_exporter_config "config" do
+rb_exporter_config 'config' do
   action :add
 end
