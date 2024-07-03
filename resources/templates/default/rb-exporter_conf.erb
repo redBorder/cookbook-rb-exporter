@@ -1,0 +1,52 @@
+daemonize: true
+logfile:/var/log/rb-exporter/<%= @iface %>/rb-exporter.log
+
+<% if @type.downcase.include? "netflow"%>
+  <% if @observation_id_filters.count > 0 %>
+    <% unique_observation_ids = @observation_id_filters.map { |filter| filter['observation_id'] }.uniq %>
+    <% unique_observation_ids.each do |id| %>
+aggregate[<%= id %>]: src_host, dst_host, src_mac, dst_mac, src_port, dst_port, proto, class, vlan
+    <% end %>
+aggregate[<%= @observation_id %>]: src_host, dst_host, src_mac, dst_mac, src_port, dst_port, proto, class, vlan
+  
+    <% @observation_id_filters.each do |filter| %>
+aggregate_filter[<%= filter['observation_id'] %>]: src net <%= filter['subnet'] %>
+    <% end %>
+    <% @observation_id_filters.each do |filter| %>
+aggregate_filter[<%= filter['observation_id'] %>]: dst net <%= filter['subnet'] %><%= " and not src net " + @observation_id_filters.reject { |f| f == filter }.map { |f| f['subnet'] }.join(' and not src net ') if @observation_id_filters.length > 1 %>
+    <% end %>
+  
+aggregate_filter[<%= @observation_id %>]: not src net <%= @observation_id_filters.map { |f| f['subnet'] }.join(' and not src net ') %> and not dst net <%= @observation_id_filters.map { |f| f['subnet'] }.join(' and not dst net ') %>
+  
+plugins: <%= unique_observation_ids.map { |id| "nfprobe[#{id}]" }.join(', ') %>, nfprobe[<%= @observation_id %>]
+nfprobe_receiver: <%= @dstAddress %>
+nfprobe_version: <%= @type.scan(/\d/).join('') %>
+nfprobe_timeouts: maxlife=30:tcp=30:udp=30:icmp=30:general=30
+    <% unique_observation_ids.each do |id| %>
+nfprobe_engine[<%= id %>]: <%= id %>
+    <% end %>
+nfprobe_engine[<%= @observation_id %>]: <%= @observation_id %>
+  <% else %>
+aggregate: src_host, dst_host, src_mac, dst_mac, src_port, dst_port, proto, class, vlan
+
+plugins: nfprobe
+nfprobe_receiver: <%= @dstAddress %>
+nfprobe_version: <%= @type.scan(/\d/).join('') %>
+nfprobe_timeouts: maxlife=30:tcp=30:udp=30:icmp=30:general=30
+    <% if @observation_id %>
+nfprobe_engine: <%=@observation_id%><%=@type.scan(/\d/).join('').to_i > 5 ? "" : ":0"%>
+    <% end %>
+  <% end # end netflow%>
+<% end %>
+
+<% if @type.downcase.include? "sflow" %>
+aggregate: class, dst_host, dst_host_country, dst_mac, dst_port, export_proto_seqno, in_iface, out_iface, peer_dst_ip, peer_src_ip, proto, sampling_rate, src_host, src_host_country, src_mac, src_port, tag, tag2, tcpflags, timestamp_arrival, tos, vlan
+
+plugins: sfprobe
+sfprobe_agentip: <%= @ipAddress %>
+sfprobe_agentsubid: 1402
+sfprobe_receiver: <%= @dstAddress %>
+sampling_rate: 20
+!pre_tag_label_encode_as_map: true
+pre_tag_map: /etc/rb-exporter/<%=@iface%>/pretag.map
+<% end %>
