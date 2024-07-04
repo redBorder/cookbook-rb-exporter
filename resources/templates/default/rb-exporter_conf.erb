@@ -23,9 +23,9 @@ nfprobe_receiver: <%= @dstAddress %>
 nfprobe_version: <%= @type.scan(/\d/).join('') %>
 nfprobe_timeouts: maxlife=30:tcp=30:udp=30:icmp=30:general=30
     <% unique_observation_ids.each do |id| %>
-nfprobe_engine[<%= id %>]: <%= id %>
+nfprobe_engine[<%= id %>]: <%= id %><%=@type.scan(/\d/).join('').to_i > 5 ? "" : ":0"%>
     <% end %>
-nfprobe_engine[<%= @observation_id %>]: <%= @observation_id %>
+nfprobe_engine[<%= @observation_id %>]: <%= @observation_id %><%=@type.scan(/\d/).join('').to_i > 5 ? "" : ":0"%>
   <% else %>
 aggregate: src_host, dst_host, src_mac, dst_mac, src_port, dst_port, proto, class, vlan
 
