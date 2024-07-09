@@ -1,6 +1,12 @@
 cookbook-rb-exporter CHANGELOG
 ===============
 
+## 0.1.0
+
+  - David Vanhoucke
+    - [c1ee0f3] fix netflow v5
+    - [4a06b54] add subnet to observation id filters
+
 ## 0.0.2
 
   - Miguel Negron
