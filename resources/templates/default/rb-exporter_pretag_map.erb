@@ -13,5 +13,13 @@
 ! dst_mac, vlan.
 
 <% if @observation_id %>
+<% for observation_id_filter in @observation_id_filters %>
+  set_tag2=<%= observation_id_filter['observation_id'] %> filter='src net <%= observation_id_filter['subnet'] %>'
+<% end %>
+
+<% for observation_id_filter in @observation_id_filters %>
+  set_tag2=<%= observation_id_filter['observation_id'] %> filter='dst net <%= observation_id_filter['subnet'] %>'
+<% end %>
+
 set_tag2=<%=@observation_id%>
 <% end %>
