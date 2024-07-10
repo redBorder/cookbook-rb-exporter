@@ -95,7 +95,8 @@ action :add do
 
           # Calculate observation_id
           observation_id = (iface['observationId'] && !iface['observationId'].empty?) ? iface['observationId'] : nil
-          observation_id = 4294967295 if observation_id.nil? && iface['type'].downcase.include?('sflow')
+          observation_id = 4294967295 if observation_id.nil? && iface['protocol_type'].downcase.include?('sflow')
+          observation_id_filters = iface['observation_id_filters'] || {}
 
           template "/etc/rb-exporter/#{iface_key}/rb-exporter.conf" do
             source 'rb-exporter_conf.erb'
@@ -104,7 +105,7 @@ action :add do
             cookbook 'rb-exporter'
             mode '0644'
             retries 2
-            variables(dstAddress: iface['dstAddress'], type: iface['type'], ipAddress: node['ipaddress'], iface: iface_key, observation_id: observation_id)
+            variables(dstAddress: iface['dstAddress'], type: iface['protocol_type'], ipAddress: node['ipaddress'], iface: iface_key, observation_id: observation_id, observation_id_filters: observation_id_filters)
             notifies :run, "execute[restart_rb-exporter_#{iface_key}]", :delayed
           end
 
@@ -115,7 +116,7 @@ action :add do
             cookbook 'rb-exporter'
             mode '0644'
             retries 2
-            variables(observation_id: observation_id)
+            variables(observation_id: observation_id, observation_id_filters: observation_id_filters)
             notifies :run, "execute[restart_rb-exporter_#{iface_key}]", :delayed
           end
         else
