@@ -4,6 +4,7 @@
 action :add do
   begin
     user = new_resource.user
+    split_traffic_logstash = new_resource.split_traffic_logstash
     config_dir = new_resource.config_dir
     arp_ifaces = []
 
@@ -116,7 +117,7 @@ action :add do
             cookbook 'rb-exporter'
             mode '0644'
             retries 2
-            variables(observation_id: observation_id, observation_id_filters: observation_id_filters)
+            variables(observation_id: observation_id, observation_id_filters: observation_id_filters, split_traffic_logstash: split_traffic_logstash)
             notifies :run, "execute[restart_rb-exporter_#{iface_key}]", :delayed
           end
         else
