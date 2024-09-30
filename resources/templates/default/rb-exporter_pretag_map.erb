@@ -13,12 +13,14 @@
 ! dst_mac, vlan.
 
 <% if @observation_id %>
+<% if !@split_traffic_logstash %>
 <% for observation_id_filter in @observation_id_filters %>
   set_tag2=<%= observation_id_filter['observation_id'] %> filter='src net <%= observation_id_filter['subnet'] %>'
 <% end %>
 
 <% for observation_id_filter in @observation_id_filters %>
   set_tag2=<%= observation_id_filter['observation_id'] %> filter='dst net <%= observation_id_filter['subnet'] %>'
+<% end %>
 <% end %>
 
 set_tag2=<%=@observation_id%>

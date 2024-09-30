@@ -1,6 +1,11 @@
 cookbook-rb-exporter CHANGELOG
 ===============
 
+## 0.2.0
+
+  - David Vanhoucke
+    - [462f9cc] add method to activate the split of the traffic through logstash
+
 ## 0.1.0
 
   - David Vanhoucke
