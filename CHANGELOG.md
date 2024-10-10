@@ -1,6 +1,11 @@
 cookbook-rb-exporter CHANGELOG
 ===============
 
+## 0.2.1
+
+  - Miguel Negrón
+    - [599d31c] Add pre and postun to clean the cookbook
+
 ## 0.2.0
 
   - David Vanhoucke
@@ -14,7 +19,7 @@ cookbook-rb-exporter CHANGELOG
 
 ## 0.0.2
 
-  - Miguel Negron
+  - Miguel Negrón
     - [fbd52b1] add gemfile for testing
     - [883358a] lint resources
     - [1901f86] lint recipes
