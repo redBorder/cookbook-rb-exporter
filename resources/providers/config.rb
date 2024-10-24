@@ -106,7 +106,7 @@ action :add do
             cookbook 'rb-exporter'
             mode '0644'
             retries 2
-            variables(dstAddress: iface['dstAddress'], type: iface['protocol_type'], ipAddress: node['ipaddress'], iface: iface_key, observation_id: observation_id, observation_id_filters: observation_id_filters, sampling_rate: iface['sampling_rate'])
+            variables(dstAddress: iface['dstAddress'], type: iface['protocol_type'], ipAddress: node['ipaddress'], iface: iface_key, observation_id: observation_id, observation_id_filters: observation_id_filters)
             notifies :run, "execute[restart_rb-exporter_#{iface_key}]", :delayed
           end
 
