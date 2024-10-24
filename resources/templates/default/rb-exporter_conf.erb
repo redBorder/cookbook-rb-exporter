@@ -46,7 +46,7 @@ plugins: sfprobe
 sfprobe_agentip: <%= @ipAddress %>
 sfprobe_agentsubid: 1402
 sfprobe_receiver: <%= @dstAddress %>
-sampling_rate: 20
+sampling_rate: <%= @sampling_rate %>
 !pre_tag_label_encode_as_map: true
 pre_tag_map: /etc/rb-exporter/<%=@iface%>/pretag.map
 <% end %>
