@@ -1,6 +1,11 @@
 cookbook-rb-exporter CHANGELOG
 ===============
 
+## 0.3.0
+
+- Nils Verschaeve
+  - [6746f86f691590af4beea327b92fb92d7aab2989] Add sampling rate
+
 ## 0.2.1
 
   - Miguel Negrón
