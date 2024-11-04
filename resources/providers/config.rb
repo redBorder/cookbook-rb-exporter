@@ -44,7 +44,7 @@ action :add do
             execute "#{s_action}_#{s}_#{iface_key}" do
               command "/bin/env WAIT=1 /etc/init.d/#{s} #{s_action} #{iface_key}"
               ignore_failure false
-              action :immediately
+              action :nothing
             end
           end
         end
@@ -54,7 +54,7 @@ action :add do
           execute "iface_restart_#{iface_key}" do
             command "ifconfig #{iface_key} down && ifconfig #{iface_key} up"
             ignore_failure false
-            action :immediately
+            action :nothing
           end
 
           template "/etc/sysconfig/network-scripts/ifcfg-#{iface_key}" do
@@ -166,7 +166,7 @@ action :add do
       service_name 'rb-exporter'
       supports status: true, reload: true, restart: true, start: true, enable: true
       ignore_failure true
-      action([:start, :enable])
+      action([:start, :enable, :restart])
     end
 
     Chef::Log.info('rb-exporter cookbook has been processed')
