@@ -44,7 +44,7 @@ action :add do
             execute "#{s_action}_#{s}_#{iface_key}" do
               command "/bin/env WAIT=1 /etc/init.d/#{s} #{s_action} #{iface_key}"
               ignore_failure false
-              action :nothing
+              action :immediately
             end
           end
         end
@@ -54,7 +54,7 @@ action :add do
           execute "iface_restart_#{iface_key}" do
             command "ifconfig #{iface_key} down && ifconfig #{iface_key} up"
             ignore_failure false
-            action :nothing
+            action :immediately
           end
 
           template "/etc/sysconfig/network-scripts/ifcfg-#{iface_key}" do
