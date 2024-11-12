@@ -1,6 +1,11 @@
 cookbook-rb-exporter CHANGELOG
 ===============
 
+## 0.3.1
+
+  - Pedro Lima
+    - [f9f540b] bugfix #19113 rb-exporter service don't restart/reload when configuration change (table exporter in sensor ips-proxy) restart with chef
+
 ## 0.3.0
 
 - Nils Verschaeve
