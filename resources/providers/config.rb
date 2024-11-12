@@ -166,7 +166,7 @@ action :add do
       service_name 'rb-exporter'
       supports status: true, reload: true, restart: true, start: true, enable: true
       ignore_failure true
-      action([:start, :enable])
+      action([:start, :enable, :restart])
     end
 
     Chef::Log.info('rb-exporter cookbook has been processed')
