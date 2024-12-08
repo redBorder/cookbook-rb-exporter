@@ -33,9 +33,9 @@ action :add do
       notifies :restart, 'service[rsyslog]', :delayed
     end
 
-    if node['interfaces'] && !node['interfaces'].empty?
-      node['interfaces'].each do |iface_key, _orig_iface|
-        iface = node['interfaces'][iface_key].to_hash.clone
+    if node['redborder']['interfaces'] && !node['redborder']['interfaces'].empty?
+      node['redborder']['interfaces'].each do |iface_key, _orig_iface|
+        iface = node['redborder']['interfaces'][iface_key].to_hash.clone
 
         arp_ifaces.push(iface_key) if iface['arp'] == 'true'
 
