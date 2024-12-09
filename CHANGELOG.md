@@ -1,6 +1,11 @@
 cookbook-rb-exporter CHANGELOG
 ===============
 
+## 1.0.0
+
+  - manegron
+    - [50d2b13] change interface location
+
 ## 0.3.1
 
   - Pedro Lima
