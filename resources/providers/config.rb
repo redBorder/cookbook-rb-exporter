@@ -45,6 +45,7 @@ action :add do
               command "/bin/env WAIT=1 /etc/init.d/#{s} #{s_action} #{iface_key}"
               ignore_failure false
               action :nothing
+              notifies :restart, 'service[rb-exporter]', :delayed
             end
           end
         end
@@ -150,23 +151,22 @@ action :add do
     service 'rsyslog' do
       service_name 'rsyslog'
       supports status: true, reload: true, restart: true, start: true, enable: true
-      action [:enable, :start]
       ignore_failure true
-      action([:start, :enable])
+      action [:enable, :start]
     end
 
     service 'arpwatch' do
       service_name 'arpwatch'
       supports status: true, reload: true, restart: true, start: true, enable: true
       ignore_failure true
-      action([:start, :enable])
+      action [:enable, :start]
     end
 
     service 'rb-exporter' do
       service_name 'rb-exporter'
       supports status: true, reload: true, restart: true, start: true, enable: true
       ignore_failure true
-      action([:start, :enable, :restart])
+      action [:enable, :start]
     end
 
     Chef::Log.info('rb-exporter cookbook has been processed')

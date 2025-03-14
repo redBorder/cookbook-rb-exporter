@@ -1,6 +1,11 @@
 cookbook-rb-exporter CHANGELOG
 ===============
 
+## 1.0.1
+
+  - nilsver
+    - [eef90e4] only restart rb-exporter on configuration change
+
 ## 1.0.0
 
   - manegron
