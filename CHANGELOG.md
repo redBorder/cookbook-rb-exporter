@@ -1,11 +1,6 @@
 cookbook-rb-exporter CHANGELOG
 ===============
 
-## 1.1.0
-
-  - nilsver
-    - [577d3be] fix target url
-
 ## 1.0.1
 
   - nilsver
