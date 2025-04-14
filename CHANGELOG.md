@@ -1,6 +1,11 @@
 cookbook-rb-exporter CHANGELOG
 ===============
 
+## 1.1.0
+
+  - Rafael Gomez
+    - [4d6c187] Update rsyslog configuration to use dynamic cdomain for log forwarding
+
 ## 1.0.1
 
   - nilsver
