@@ -77,7 +77,7 @@ if $fromhost-ip == '127.0.0.1' and $app-name == 'arpwatch' and (
 {
   #Action to send logs to Apache Kafka
   #action(type="omhttp" server="127.0.0.1" serverport="8080" restpath="/network/Analytics" template="ARP")
-  action(type="omfwd" target="data.<%= node['redborder']['cdomain'] %>" port="514" protocol="tcp" action.resumeRetryCount="100" queue.type="linkedList" queue.size="10000")
+  action(type="omfwd" target="data.redborder.cluster" port="514" protocol="tcp" action.resumeRetryCount="100" queue.type="linkedList" queue.size="10000")
   action(type="omfile" dirCreateMode="0700" FileCreateMode="0644" File="/var/log/arpwatch.log" Template="ARP")
   stop
 }
