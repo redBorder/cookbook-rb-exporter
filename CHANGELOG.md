@@ -1,6 +1,11 @@
 cookbook-rb-exporter CHANGELOG
 ===============
 
+## 1.1.1
+
+  - nilsver
+    - [8bc3737] remove flush cache
+
 ## 1.1.0
 
   - Rafael Gomez
