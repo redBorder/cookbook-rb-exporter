@@ -1,6 +1,11 @@
 cookbook-rb-exporter CHANGELOG
 ===============
 
+## 1.1.2
+
+  - jnavarrorb
+    - [f67ed01] Remove executable permissions on non-executable files
+
 ## 1.1.1
 
   - nilsver
