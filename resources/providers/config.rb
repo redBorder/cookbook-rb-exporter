@@ -38,7 +38,6 @@ action :add do
 
         arp_ifaces.push(iface_key) if iface['arp'] == 'true'
 
-
         if !iface['dstAddress'].empty?
 
           execute "iface_restart_#{iface_key}" do
@@ -148,7 +147,6 @@ action :add do
       action [:enable, :start]
     end
 
-
     interfaces = node['redborder']['interfaces'] || {}
 
     if arp_ifaces.any? || interfaces.values.any? { |i| !i['dstAddress'].to_s.empty? }
@@ -157,7 +155,7 @@ action :add do
         action [:enable, :restart]
       end
     else
-      service 'rb-exporter' do 
+      service 'rb-exporter' do
         supports status: true, stop: true
         action [:stop, :disable]
       end
