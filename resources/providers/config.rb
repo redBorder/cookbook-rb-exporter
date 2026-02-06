@@ -38,16 +38,6 @@ action :add do
 
         arp_ifaces.push(iface_key) if iface['arp'] == 'true'
 
-        ['rb-exporter'].each do |s|
-          %w(restart stop start).each do |s_action|
-            execute "#{s_action}_#{s}_#{iface_key}" do
-              command "/bin/env WAIT=1 /etc/init.d/#{s} #{s_action} #{iface_key}"
-              ignore_failure false
-              action :nothing
-              notifies :restart, 'service[rb-exporter]', :delayed
-            end
-          end
-        end
 
         if !iface['dstAddress'].empty?
 
@@ -107,7 +97,6 @@ action :add do
             mode '0644'
             retries 2
             variables(dstAddress: iface['dstAddress'], type: iface['protocol_type'], ipAddress: node['ipaddress'], iface: iface_key, observation_id: observation_id, observation_id_filters: observation_id_filters, sampling_rate: iface['sampling_rate'])
-            notifies :run, "execute[restart_rb-exporter_#{iface_key}]", :delayed
           end
 
           template "/etc/rb-exporter/#{iface_key}/pretag.map" do
@@ -118,14 +107,12 @@ action :add do
             mode '0644'
             retries 2
             variables(observation_id: observation_id, observation_id_filters: observation_id_filters, split_traffic_logstash: split_traffic_logstash)
-            notifies :run, "execute[restart_rb-exporter_#{iface_key}]", :delayed
           end
         else
-          directory "/opt/rb/etc/rb-exporter/#{iface_key}" do
+          directory "/etc/rb-exporter/#{iface_key}" do
             recursive true
             action :delete
-            only_if { ::Dir.exist?("/opt/rb/etc/rb-exporter/#{iface_key}") }
-            notifies :run, "execute[stop_rb-exporter_#{iface_key}]", :immediately
+            only_if { ::Dir.exist?("/etc/rb-exporter/#{iface_key}") }
           end
 
           file "/etc/logrotate.d/rb-exporter-#{iface_key}" do
@@ -161,11 +148,19 @@ action :add do
       action [:enable, :start]
     end
 
-    service 'rb-exporter' do
-      service_name 'rb-exporter'
-      supports status: true, reload: true, restart: true, start: true, enable: true
-      ignore_failure true
-      action [:enable, :start]
+
+    interfaces = node['redborder']['interfaces'] || {}
+
+    if arp_ifaces.any? || interfaces.values.any? { |i| !i['dstAddress'].to_s.empty? }
+      service 'rb-exporter' do
+        supports status: true, restart: true
+        action [:enable, :restart]
+      end
+    else
+      service 'rb-exporter' do 
+        supports status: true, stop: true
+        action [:stop, :disable]
+      end
     end
 
     Chef::Log.info('rb-exporter cookbook has been processed')
