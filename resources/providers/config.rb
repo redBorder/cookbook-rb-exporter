@@ -96,6 +96,7 @@ action :add do
             mode '0644'
             retries 2
             variables(dstAddress: iface['dstAddress'], type: iface['protocol_type'], ipAddress: node['ipaddress'], iface: iface_key, observation_id: observation_id, observation_id_filters: observation_id_filters, sampling_rate: iface['sampling_rate'])
+            notifies :restart, 'service[rb-exporter]', :delayed
           end
 
           template "/etc/rb-exporter/#{iface_key}/pretag.map" do
@@ -106,6 +107,7 @@ action :add do
             mode '0644'
             retries 2
             variables(observation_id: observation_id, observation_id_filters: observation_id_filters, split_traffic_logstash: split_traffic_logstash)
+            notifies :restart, 'service[rb-exporter]', :delayed
           end
         else
           directory "/etc/rb-exporter/#{iface_key}" do
@@ -152,7 +154,7 @@ action :add do
     if arp_ifaces.any? || interfaces.values.any? { |i| !i['dstAddress'].to_s.empty? }
       service 'rb-exporter' do
         supports status: true, restart: true
-        action [:enable, :restart]
+        action [:enable, :start]
       end
     else
       service 'rb-exporter' do
