@@ -176,7 +176,7 @@ action :add do
     end
 
     if ::Dir.exist?('/etc/rb-exporter')
-      Dir.glob('/etc/rb-exporter/*').each do |dir|
+      ::Dir.glob('/etc/rb-exporter/*').each do |dir|
         iface = File.basename(dir)
         next if active_ifaces.include?(iface)
 
