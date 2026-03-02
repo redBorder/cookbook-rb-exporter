@@ -37,6 +37,7 @@ action :add do
 
     template '/etc/rsyslog.d/arp.conf' do
       source 'rsyslog_arp_conf.erb'
+      cookbook 'rb-exporter'
       owner 'root'
       group 'root'
       mode '0644'
@@ -74,6 +75,7 @@ action :add do
 
       template "/etc/sysconfig/network-scripts/ifcfg-#{iface_key}" do
         source 'ifcfg.erb'
+        cookbook 'rb-exporter'
         owner 'root'
         group 'root'
         mode '0644'
@@ -90,6 +92,7 @@ action :add do
 
       template "/etc/logrotate.d/rb-exporter-#{iface_key}" do
         source 'rb-exporter_log-rotate.erb'
+        cookbook 'rb-exporter'
         owner 'root'
         group 'root'
         mode '0644'
@@ -122,6 +125,7 @@ action :add do
 
       template "/etc/rb-exporter/#{iface_key}/rb-exporter.conf" do
         source 'rb-exporter_conf.erb'
+        cookbook 'rb-exporter'
         owner 'root'
         group 'root'
         mode '0644'
@@ -140,6 +144,7 @@ action :add do
 
       template "/etc/rb-exporter/#{iface_key}/pretag.map" do
         source 'rb-exporter_pretag_map.erb'
+        cookbook 'rb-exporter'
         owner 'root'
         group 'root'
         mode '0644'
@@ -184,6 +189,7 @@ action :add do
 
     template '/etc/sysconfig/arpwatch' do
       source 'arpwatch.erb'
+      cookbook 'rb-exporter'
       owner 'root'
       group 'root'
       mode '0644'
