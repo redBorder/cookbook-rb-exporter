@@ -177,7 +177,7 @@ action :add do
 
     if ::Dir.exist?('/etc/rb-exporter')
       ::Dir.glob('/etc/rb-exporter/*').each do |dir|
-        iface = File.basename(dir)
+        iface = ::File.basename(dir)
         next if active_ifaces.include?(iface)
 
         service "rb-exporter@#{iface}" do
