@@ -208,7 +208,7 @@ action :add do
       action [:enable, :start]
     end
 
-  Chef::Log.info('rb-exporter cookbook has been processed')
+    Chef::Log.info('rb-exporter cookbook has been processed')
   rescue => e
     Chef::Log.error(e.message)
     raise
