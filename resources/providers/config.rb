@@ -121,10 +121,10 @@ action :add do
             notifies :run, "execute[restart_rb-exporter_#{iface_key}]", :delayed
           end
         else
-          directory "/opt/rb/etc/rb-exporter/#{iface_key}" do
+          directory "/etc/rb-exporter/#{iface_key}" do
             recursive true
             action :delete
-            only_if { ::Dir.exist?("/opt/rb/etc/rb-exporter/#{iface_key}") }
+            only_if { ::Dir.exist?("/etc/rb-exporter/#{iface_key}") }
             notifies :run, "execute[stop_rb-exporter_#{iface_key}]", :immediately
           end
 
