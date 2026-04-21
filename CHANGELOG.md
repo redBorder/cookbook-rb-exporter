@@ -1,6 +1,11 @@
 cookbook-rb-exporter CHANGELOG
 ===============
 
+## 1.1.3
+
+  - Alejandro Guzmán
+    - [d41f486] feature/#24176 fix rb-exporter config delete path
+
 ## 1.1.2
 
   - jnavarrorb
