@@ -57,6 +57,9 @@ fi
 %doc
 
 %changelog
+* Tue Mar 03 2026 Akira <agarcia@redborder.com>
+- Refactor rb-exporter to use systemd template instances (rb-exporter@iface)
+
 * Thu Oct 10 2024 Miguel Negrón <manegron@redborder.com>
 - Add pre and postun
 
