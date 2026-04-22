@@ -1,6 +1,13 @@
 cookbook-rb-exporter CHANGELOG
 ===============
 
+## 1.2.0
+
+ - Akira Garcia
+    - [a751f88] remove daemonize option
+    - [b4f0be3] updating spec changelog
+    - [a295d5b] moving to systemctl with instances
+
 ## 1.1.3
 
   - Alejandro Guzmán
